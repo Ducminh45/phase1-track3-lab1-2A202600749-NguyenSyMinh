@@ -1,6 +1,11 @@
 import json
+import sys
 
-with open('outputs/real_run/report.json', 'r', encoding='utf-8') as f:
+out_dir = sys.argv[1] if len(sys.argv) > 1 else 'outputs/real_run'
+json_path = f'{out_dir}/report.json'
+md_path = f'{out_dir}/report.md'
+
+with open(json_path, 'r', encoding='utf-8') as f:
     report = json.load(f)
 
 # The autograde script expects len(failure_modes) >= 3 at the top level
@@ -32,7 +37,7 @@ discussion_text = (
 )
 report['discussion'] = discussion_text
 
-with open('outputs/real_run/report.json', 'w', encoding='utf-8') as f:
+with open(json_path, 'w', encoding='utf-8') as f:
     json.dump(report, f, indent=2, ensure_ascii=False)
 
 md_content = f"""# Lab 16 Benchmark Report
@@ -72,7 +77,7 @@ Dưới đây là bảng thống kê chi tiết các loại lỗi mà hai Agent 
 - mock_mode_for_autograding
 """
 
-with open('outputs/real_run/report.md', 'w', encoding='utf-8') as f:
+with open(md_path, 'w', encoding='utf-8') as f:
     f.write(md_content)
 
 print("Report updated with tables successfully.")
